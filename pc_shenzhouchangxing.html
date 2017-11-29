@@ -110,7 +110,7 @@
 <script>
     $(function () {
 
-        var url=url_user;
+        var url=url_area;
 
         $.get(url,function (result) {
             var html="<option value=\"\">请选择</option>";
@@ -131,7 +131,7 @@
             $("#tpl-area-town").html("<option value=\"\">请选择</option>");
         }else {
 
-            var url="http://localhost:8080/areas/"+$("#tpl-area-province").val();
+            var url=url_area+$("#tpl-area-province").val();
             $.get(url,function (result) {
                 var html="<option value=\"\">请选择</option>";
 
@@ -151,7 +151,7 @@
             $("#tpl-area-town").html("<option value=\"\">请选择</option>");
         }else {
 
-            var url="http://localhost:8080/areas/"+$("#tpl-area-city").val();
+            var url=url_area+$("#tpl-area-city").val();
             $.get(url,function (result) {
                 var html="<option value=\"\">请选择</option>";
 
