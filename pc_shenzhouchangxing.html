@@ -106,104 +106,70 @@
 <script src="js/jsrender.js"></script>
 <script src="js/urlHandler.js"></script>
 <script src="js/common.js"></script>
-
 <script>
-    $(function () {
-
-        var url=url_area+"/0";
-
+    function getArea(prentId,selecter) {
+        var url=url_area+"/"+prentId
         $.get(url,function (result) {
             var html="<option value=\"\">请选择</option>";
-
             $.each(result.data,function (index,value) {
-
-                html+="<option value=\""+value.id+"\">"+value.name+"</option>"
-               })
-
-            $("#tpl-area-province").html(html)
+                html+="<option value=\""+value.id+"\">"+value.name+"</option>";
+            })
+            $(selecter).html(html);
         })
-    })
-
-    $("#tpl-area-province").change(function () {
-        if($("#tpl-area-province").val()==""){
-
-            $("#tpl-area-city").html("<option value=\"\">请选择</option>");
-            $("#tpl-area-town").html("<option value=\"\">请选择</option>");
-        }else {
-
-            var url=url_area+$("#tpl-area-province").val();
-            $.get(url,function (result) {
-                var html="<option value=\"\">请选择</option>";
-
-                $.each(result.data,function (index,value) {
-
-                    html+="<option value=\""+value.id+"\">"+value.name+"</option>"
-                })
-
-                $("#tpl-area-city").html(html);
-            })
-        }
-    })
-    $("#tpl-area-city").change(function () {
-        if($("#tpl-area-city").val()==""){
+    }
 
 
-            $("#tpl-area-town").html("<option value=\"\">请选择</option>");
-        }else {
+    $(function (){
 
-            var url=url_area+$("#tpl-area-city").val();
-            $.get(url,function (result) {
-                var html="<option value=\"\">请选择</option>";
+        getArea(0,"#tpl-area-province");
 
-                $.each(result.data,function (index,value) {
+        $("#tpl-area-province").change( function () {
+            if($("#tpl-area-province").val()==""){
+                $("#tpl-area-city").html("<option value=\"\">请选择</option>");
+                $("#tpl-area-town").html("<option value=\"\">请选择</option>");
+            }else{
+                getArea($("#tpl-area-province").val(),"#tpl-area-city")
+            }
+        })
 
-                    html+="<option value=\""+value.id+"\">"+value.name+"</option>"
-                })
-
-                $("#tpl-area-town").html(html);
-            })
-        }
-    })
+        $("#tpl-area-city").change( function () {
+            if($("#tpl-area-city").val()==""){
+                $("#tpl-area-town").html("<option value=\"\">请选择</option>");
+            }else {
+                getArea($("#tpl-area-city").val(),"#tpl-area-town")
+            }
+        })
 
         $("#submit").click(function () {
-            var user={};
-            user.name=$(".four_name").val();
-            user.sex=$(".sex:checked").val();
-            user.birth=$(".four_birthday").val();
-            user.idNo=$(".four_idNo").val();
-            user.phone=$(".four_tel").val();
-            user.province=$("#tpl-area-province").val();
-            user.city=$("#tpl-area-city").val();
-            user.town=$("#tpl-area-town").val();
-            user.channelCode=UrlParm.parm("channelCode");
-            user.productCode="PA000000CXSF-PACXSZ-01";
-            console.log(JSON.stringify(user));
-            var url=url_user;
+            var user={ };
+            user.name=$(".four_name").val()
+            user.sex=$(".sex:checked").val()
+            user.birth=$(".four_birthday").val()
+            user.idNo=$(".four_idNo").val()
+            user.phone=$(".four_tel").val()
+            user.province=$("#tpl-area-province").val()
+            user.city=$("#tpl-area-city").val()
+            user.town=$("#tpl-area-town").val()
+            user.channelCode=UrlParm.parm("channelCode")
+            user.productCode="PA000000CXSF-PACXSZ-01"
 
-            //yanzhengcanshu
-            if(user.name==""){
-                alert("")
-                return;
-            }
+            var url=url_user+"/"
 
             $.post(url,user,function (result) {
 
                 if(result.code==200){
 
-                    alert("success");
-                    $(".four_name").val("");
-                    $(".four_tel").val("");
-                    $(".four_idNo").val("");
-                    $(".four_birthday").val("");
-                }else{
-                    alert(result.message);
+                    alert("success")
 
+                }else {
+                    alert(result.message)
                 }
             })
+
         })
 
 
-
+    })
 
 
 </script>
